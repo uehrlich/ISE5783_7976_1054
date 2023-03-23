@@ -12,14 +12,28 @@ public class Point {
     protected Point(Double3 xyz){this.xyz = xyz ; }//simple constructor
     @Override
     public boolean equals(Object obj) {//checks if equals
+        if (this == obj) return true;
         return (obj instanceof Point) && (((Point)obj).xyz.equals(this.xyz) );
-    }
-    public double distanceSquared(Point pt){//returns the duplicates of the difference of the two points
+    } // check if the same reference
+
+    /**
+     * returns the duplicates of the differences of the two points
+     * @param pt
+     * @return
+     */
+    public double distanceSquared(Point pt){
         return (pt.xyz.d1 - this.xyz.d1)*(pt.xyz.d1 - this.xyz.d1) +
                 (pt.xyz.d2 - this.xyz.d2)*(pt.xyz.d2 - this.xyz.d2) +
                 (pt.xyz.d3 - this.xyz.d3)*(pt.xyz.d3 - this.xyz.d3);
     }
-    public double distance(Point pt){ // square root
+
+    /**
+     * // gets a point and return the distance between the points by square root
+     * @param pt
+     * @return
+     */
+
+    public double distance(Point pt){
         return Math.sqrt(this.distanceSquared(pt));
     }
     @Override
@@ -29,13 +43,23 @@ public class Point {
                 '}';
     }
 
-    public Point add (Vector v) { // adding two points
+    /**
+     * adds a vector to the points and returns and returns new point
+     * @param v
+     * @return
+     */
+    public Point add (Vector v) { //
         return new Point (v.xyz.d1+ this.xyz.d1 ,
                 v.xyz.d2 + this.xyz.d2 ,
                 v.xyz.d3 + this.xyz.d3);
     }
 
-    public Vector subtract (Point v) { // subtract the two
+    /**
+     * // subtract two points and returns a new points
+     * @param v
+     * @return
+     */
+    public Vector subtract (Point v) {
         return new Vector (this.xyz.d1 - v.xyz.d1 ,
                 this.xyz.d2  - v.xyz.d2 ,
                 this.xyz.d3  - v.xyz.d3);

@@ -24,8 +24,9 @@ public class Vector extends Point {
     }
 
     @Override
-    public boolean equals(Object obj) { // using fathers func
-        return super.equals(obj);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Vector) && (((Vector)obj).xyz.equals(this.xyz) );
     }
 
     @Override
@@ -35,35 +36,62 @@ public class Vector extends Point {
                 '}';
     }
 
-    public Vector add(Vector vc) { // adding all vals for each parameter
+    /**
+     *  // adding all values for each parameter and returns a new vector
+     * @param vc
+     * @return
+     */
+    public Vector add(Vector vc) {
         return new Vector(this.xyz.d1 + vc.xyz.d1,
                 this.xyz.d2 + vc.xyz.d2,
                 this.xyz.d3 + vc.xyz.d3);
     }
 
-    public Vector scale(double sc) { // duplicate by scale
+    /**
+     * // duplicate by scale
+     * @param sc
+     * @return
+     */
+    public Vector scale(double sc) {
         return new Vector(sc * this.xyz.d1,
                 sc * this.xyz.d2,
                 sc * this.xyz.d3
         );
     }
 
-    public double dotProduct(Vector vc) { // shows with product
+    /**
+     * // gets a new vectors and returns the scalar duplication
+     * @param vc
+     * @return
+     */
+    public double dotProduct(Vector vc) {
         return this.xyz.d1 * vc.xyz.d1 +
                 this.xyz.d2 * vc.xyz.d2 +
                 this.xyz.d3 * vc.xyz.d3;
 
     }
 
-    public double lengthSquared() { // Dot product
+    /**
+     * returns the length of the vector squared
+     * @return
+     */
+    public double lengthSquared() {
         return this.dotProduct(this);
     }
 
-    public double length() { // returns square root
+    /**
+     * // returns the length of the vector
+     * @return
+     */
+    public double length() {
         return Math.sqrt(this.lengthSquared());
     }
 
-    public Vector normalize(){ // normalize
+    /**
+     * // normalizes the vector
+     * @return
+     */
+    public Vector normalize(){
         return this.scale(1/this.length());
     }
     /*
@@ -72,7 +100,13 @@ public class Vector extends Point {
      * x1 | y1  z1 x1 y1
      * x2 |  y2 z2 x2 y2
      * */
-    public Vector crossProduct(Vector vc){ // two different vectors (minus), normal formula
+
+    /**
+     * // gets a vector and returns the cross product of the two vectors
+     * @param vc
+     * @return
+     */
+    public Vector crossProduct(Vector vc){
         return new Vector( (this.xyz.d2 * vc.xyz.d3 - this.xyz.d3 * vc.xyz.d2)  ,
                 (this.xyz.d3 * vc.xyz.d1 - this.xyz.d1 * vc.xyz.d3 )  ,
                 (this.xyz.d1 * vc.xyz.d2 - this.xyz.d2 * vc.xyz.d1) ) ;
