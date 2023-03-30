@@ -14,7 +14,7 @@ public class Polygon implements Geometry {
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
-   protected final Plane       plane;
+   protected final Plane plane;
    private final int           size;
 
    /** Polygon constructor based on vertices list. The list must be ordered by edge
