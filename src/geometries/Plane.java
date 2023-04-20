@@ -26,10 +26,10 @@ public class Plane implements Geometry {
 
     @Override
     public Vector getNormal(Point point) { //get
-        return null;
+        return normal;
     }
 
     public Vector getNormal() { // get without the point
-        return null;
+        return normal;
     }
 }

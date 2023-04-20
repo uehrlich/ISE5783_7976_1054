@@ -16,8 +16,15 @@ public class Sphere extends RadialGeometry {
 
     }
 
+
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        return point.subtract(center).normalize();
+    }
+
+
+    public boolean equals(Object obj) {//checks if equals
+        return (obj instanceof Sphere) && this.center.equals(((Sphere) obj).center) && this.radius == ((Sphere) obj).radius;
     }
 }
+

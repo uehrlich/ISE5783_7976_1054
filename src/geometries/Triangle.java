@@ -12,8 +12,15 @@ public class Triangle extends Polygon {
         super(p1,p2,p3);
     }
 
+    //@Override
+   // public Vector getNormal(Point point) {
+     //   return null;
+    //}
+
     @Override
-    public Vector getNormal(Point point) {
-        return null;
+    public boolean equals(Object obj) {//checks if equals
+        if (this == obj) return true;
+        return (obj instanceof Triangle) && super.equals(obj);
     }
 }
+
