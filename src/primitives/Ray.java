@@ -19,7 +19,11 @@ public class Ray {
 
     public Ray(Point p0, Vector dir) { //simple constructor
         this.p0 = p0;
-        this.dir = dir;
+        this.dir = dir.normalize();
+    }
+
+    public Point getPoint(double t){
+        return this.p0.add(this.dir.scale(t));
     }
 
     @Override

@@ -3,6 +3,9 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
+
 /**
  *Limited Tube
  *
@@ -17,14 +20,15 @@ public class Cylinder extends Tube{
     }
 
 
-    @Override
+
     public Vector getNormal(Point point) {
-        // checks if it in the bases center to avoid zero vector
+
+        //  checks if it in the bases center to avoid zero vector
         if( point.equals(axisRay.getP0() ) ||
                 point.equals(axisRay.getP0().add(this.axisRay.getDir().scale(height)) ) ){
             return  this.axisRay.getDir() ;
         }
-        // checks if it is in the bases and if it is it returbns axsix dir and if it not calc like tube
+        // checks if it is in the bases and if it is returns axises dir and if it not calc like tube
         double radiusSquared = this.radius * this.radius;
         Vector toOtherBase = this.axisRay.getDir().scale(this.height) ;
         Point p0Ver2 = this.axisRay.getP0().add(toOtherBase);
@@ -38,4 +42,8 @@ public class Cylinder extends Tube{
 
     }
 
+    @Override
+    public List<Point> findIntersections(Ray ray){
+        return null ;
+    }
 }

@@ -115,10 +115,32 @@ public class VectorTests {
     }
 
 
+    @Test
+    public void testSubtract () { // subtract the two
+        Vector v1 = new Vector(1, 1, 0);
+        Vector v2 = new Vector(1, 3, 0);
+        //  4 = sqrt(2) * SQRT(10) * cos(x)
+        //  A = 50 CEL - zavit hada
+        assertEquals(new Vector(0, -2, 0), v1.subtract(v2), "subtract() wrong result");
+        Vector v3 = new Vector(-1, -3, 0);
+        // zavit cheha - 129 cel
+        assertEquals(new Vector(2, 4, 0), v1.subtract(v3), "subtract() wrong result");
+        // =============== Boundary Values Tests ==================
+        Vector vn1 = new Vector(1, 1, 1);
+        v2 = new Vector(2, 2, 2);
+        assertEquals(new Vector(-1, -1, -1), vn1.subtract(v2), "coliner vectors are not creating colinear vector  ");
+        v1 = new Vector(1, 0, 0);
+        assertThrows(IllegalArgumentException.class,() -> vn1.subtract(vn1),
+                "subtract() cant create Zero Vector for oppiste vectors ");
 
-    /**
-     * tests add vector to another
-     */
+        v2 = new Vector(0, 1, 0);
+        assertEquals(new Vector(1, -1, 0), v1.subtract(v2), "Normals Vectors suctract() wrong result");
+
+    }
+
+        /**
+         * tests add vector to another
+         */
     @Test
     public void testAdd() {
         Vector v1 = new Vector(1,1,0);

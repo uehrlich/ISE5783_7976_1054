@@ -65,4 +65,8 @@ public class Point {
                 this.xyz.d3  - v.xyz.d3);
     }
 
+    public double getX() {
+        return xyz.d1;
+    }
+
 }
