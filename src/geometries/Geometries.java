@@ -9,6 +9,9 @@ import primitives.*;
 public class Geometries implements Intersectable {
     private List<Intersectable> items;
 
+    public Geometries() {
+        items = new LinkedList<Intersectable>();
+    }
     public Geometries(Intersectable... geometries) {
         items = new LinkedList<Intersectable>(List.of(geometries));
     }
@@ -20,6 +23,18 @@ public class Geometries implements Intersectable {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+
+            List<Point> intersections = null; // all intersections
+            for (Intersectable geometry: this.items) {
+                List<Point> geometryIntersections = geometry.findIntersections(ray); // intersections of each geometry
+                if (geometryIntersections != null) { // there are intersections in this geometry
+                    if (intersections == null) { // if there are not intersections yet - create new list
+                        intersections = new LinkedList<>();
+                    }
+                    intersections.addAll(geometryIntersections);
+                }
+            }
+            return intersections;
+        }
+
     }
-}
