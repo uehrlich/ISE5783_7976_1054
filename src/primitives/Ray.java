@@ -1,4 +1,7 @@
 package primitives;
+
+import java.util.List;
+
 /**
  *represnts linear ray in the real numbers world
  *that contains point of start and dir - linear line !
@@ -31,7 +34,23 @@ public class Ray {
         return (obj instanceof Ray) && (((Ray)obj).p0.equals(this.p0) && ((Ray)obj).dir.equals(this.dir));
     }
 
-    @Override
+
+    public Point findClosestPoint(List<Point> points) {
+        if (points.isEmpty()) {
+            return null;
+        }
+        Point closestPoint = points.get(0);
+        double closestPointDistance = this.p0.distance(points.get(0));
+        for (int i = 1; i < points.size(); i++) {
+            if (this.p0.distance(points.get(i)) < closestPointDistance) {
+                closestPoint = points.get(i);
+                closestPointDistance = this.p0.distance(points.get(i));
+            }
+        }
+        return closestPoint;
+    }
+
+        @Override
     public String toString() {//simple command line
         return "Ray{" +
                 "p0=" + p0 +
