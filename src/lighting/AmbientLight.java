@@ -2,11 +2,7 @@ package lighting;
 
 import primitives.*;
 
-public class AmbientLight {
-
-
-    private final Color intensity;
-
+public class AmbientLight extends Light {
 
     /**
      *
@@ -14,17 +10,15 @@ public class AmbientLight {
      * @param Ka light factor
      */
     public AmbientLight(Color Ia, Double3 Ka) {
-        this.intensity = Ia.scale(Ka);
+
+        super(Ia.scale(Ka));
     }
 
     public static final AmbientLight NONE = new AmbientLight(Color.BLACK,Double3.ZERO);
     public  AmbientLight() {
-        this.intensity = Color.BLACK;
+        super(Color.BLACK);
     }
 
-    public Color getIntensity() {
-        return intensity;
-    }
 }
 
 

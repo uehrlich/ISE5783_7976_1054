@@ -105,7 +105,7 @@ public class Camera {
         }
 
 
-    public void renderImage() {
+    public Camera renderImage() {
         try {
             if (this.p0 == null) {
                 throw new MissingResourceException("Missing resource value", Point.class.getName(), "");
@@ -135,17 +135,19 @@ public class Camera {
         } catch (MissingResourceException exception) {
             throw new UnsupportedOperationException("The fields must not be null ----> " + exception.getClassName());
         }
+        return  this;
     }
      private Color castRay(Camera camera , int j,int i){
          Ray ray = this.constructRay(this.imageWriter.getNx(), this.imageWriter.getNy(), j, i);
           return  this.rayTracer.traceRay(ray);
 
      }
-    public void writeToImage() {
+    public Camera writeToImage() {
         if (this.imageWriter == null) {
             throw new MissingResourceException("missing resource value", ImageWriter.class.getName(), "");
         }
         this.imageWriter.writeToImage();
+        return this;
     }
 
     public void printGrid(int interval, Color color) {

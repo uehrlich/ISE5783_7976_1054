@@ -1,11 +1,12 @@
 package primitives;
 
 import java.util.List;
+import geometries.Intersectable.GeoPoint;
 
 /**
  *represnts linear ray in the real numbers world
  *that contains point of start and dir - linear line !
- * @author Idan and Eliyahu
+ * @author Uri and David
  */
 public class Ray {
     private final  Point p0;
@@ -36,15 +37,20 @@ public class Ray {
 
 
     public Point findClosestPoint(List<Point> points) {
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+    }
+
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
         if (points.isEmpty()) {
             return null;
         }
-        Point closestPoint = points.get(0);
-        double closestPointDistance = this.p0.distance(points.get(0));
+        GeoPoint closestPoint = points.get(0);
+        double closestPointDistance = this.p0.distance(points.get(0).point);
         for (int i = 1; i < points.size(); i++) {
-            if (this.p0.distance(points.get(i)) < closestPointDistance) {
+            if (this.p0.distance(points.get(i).point) < closestPointDistance) {
                 closestPoint = points.get(i);
-                closestPointDistance = this.p0.distance(points.get(i));
+                closestPointDistance = this.p0.distance(points.get(i).point);
             }
         }
         return closestPoint;

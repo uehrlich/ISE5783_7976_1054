@@ -8,16 +8,19 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
- *Plane
+ * Plane
  *
  * @author Uri and David
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     public final Point q0;
     private final Vector normal;
 
-    public Plane(Point q1, Point q2, Point q3) { //constructor
+    public Plane(Point q1, Point q2, Point q3) {
         Vector v1 = new Vector(q1, q2); // two new vectors
         Vector v2 = new Vector(q2, q3);
         this.normal = v1.crossProduct(v2).normalize();
@@ -39,25 +42,65 @@ public class Plane implements Geometry {
     }
 
 
+    public Point getQ0() {
+        return q0;
+    }
+
+
     @Override
     public List<Point> findIntersections(Ray ray) {
         double nv = this.getNormal().dotProduct(ray.getDir());
-        if(Util.isZero(nv)){
-            return  null ;
-        }
-        else{
-            if(q0.equals(ray.getP0())){
+        if (isZero(nv)) {
+            return null;
+        } else {
+            if (q0.equals(ray.getP0())) {
                 return null;
             }
-            double nqp =  this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
-            double t = nqp / nv  ;
-            if(Util.alignZero(t) > 0 ){
+            double nqp = this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
+            double t = nqp / nv;
+            if (alignZero(t) > 0) {
                 return List.of(ray.getPoint(t));
-            }
-            else{
-                return null ;
+            } else {
+                return null;
             }
         }
+
+    }
+
+    /**
+     * @param ray
+     * @return
+     */
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+
+        // The ray is contained in the plane
+        if (isZero(ray.getDir().dotProduct(this.normal))) {
+            return null;
+        }
+
+        // Ray origin is the head of the normal
+        if (ray.getP0().equals(this.q0)) {
+            return null;
+        }
+
+        double numerator = this.normal.dotProduct(this.q0.subtract(ray.getP0()));
+        double denominator = this.normal.dotProduct(ray.getDir());
+        if (isZero(denominator)) {
+            throw new IllegalArgumentException("denominator cannot be zero");
+        }
+        double t = alignZero(numerator / denominator);
+
+        // The ray starts from the plane
+        if (t == 0) {
+            return null;
+        }
+
+        if (t > 0) {
+            return List.of(new GeoPoint(this, ray.getPoint(t)));
+        }
+
+        return null;
 
     }
 }

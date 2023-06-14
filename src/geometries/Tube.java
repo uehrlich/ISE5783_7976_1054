@@ -94,5 +94,13 @@ public class Tube extends RadialGeometry {
         }
         return null;
     }
+    protected  List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+                /*if (this.axisRay.getDirection().isParallel(ray.getDirection())) {
+            return null;
+        }*/
+        return null;
+
+    }
+
 
 }
