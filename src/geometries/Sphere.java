@@ -43,42 +43,46 @@ public class Sphere extends RadialGeometry {
      */
 
 
+
+//    public List<Point> findIntersections(Ray rayC) {
+//
+//            Vector u;
+//            double tm ;
+//            double d ;
+//            if(center.equals(rayC.getP0())){
+//                tm = 0 ;
+//                d =0 ;
+//            }
+//            else {
+//                u = this.center.subtract(rayC.getP0());
+//                tm = rayC.getDir().dotProduct(u);
+//                d  = Math.sqrt(u.lengthSquared() - (tm*tm) );
+//            }
+//
+//
+//            if( d >= this.radius ){
+//                return null;
+//            }
+//            double th = Math.sqrt(this.radius * this.radius - d * d);
+//            double t1 = tm + th ;
+//            double t2 = tm - th ;
+//            if(t1 < 0 && t2 < 0 ){
+//                return null ;
+//            }
+//            LinkedList<Point> arr = new LinkedList<>();
+//            if(t1 > 0  ){
+//                arr.add(rayC.getPoint(t1));
+//            }
+//            if(t2 > 0 ){
+//                arr.add(rayC.getPoint(t2));
+//            }
+//            return arr;
+//        }
+
+
+
     @Override
-    public List<Point> findIntersections(Ray rayC) {
-
-            Vector u;
-            double tm ;
-            double d ;
-            if(center.equals(rayC.getP0())){
-                tm = 0 ;
-                d =0 ;
-            }
-            else {
-                u = this.center.subtract(rayC.getP0());
-                tm = rayC.getDir().dotProduct(u);
-                d  = Math.sqrt(u.lengthSquared() - (tm*tm) );
-            }
-
-
-            if( d >= this.radius ){
-                return null;
-            }
-            double th = Math.sqrt(this.radius * this.radius - d * d);
-            double t1 = tm + th ;
-            double t2 = tm - th ;
-            if(t1 < 0 && t2 < 0 ){
-                return null ;
-            }
-            LinkedList<Point> arr = new LinkedList<>();
-            if(t1 > 0  ){
-                arr.add(rayC.getPoint(t1));
-            }
-            if(t2 > 0 ){
-                arr.add(rayC.getPoint(t2));
-            }
-            return arr;
-        }
-    protected  List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 
         Vector u = this.center.subtract(ray.getP0());
         double tm = ray.getDir().dotProduct(u);
@@ -89,29 +93,33 @@ public class Sphere extends RadialGeometry {
         }
 
         double th = sqrt(this.radius * this.radius - d * d);
-        double t1 = tm + th;
-        double t2 = tm - th;
+        double t1 = alignZero(tm + th);
+        double t2 = alignZero(tm - th);
 
-        if (alignZero(t1) > 0 && alignZero(t2) > 0 && t1 != t2) {
+        if (t1 > 0 &&
+                t2 > 0 &&
+                alignZero(t1 - maxDistance) <= 0 &&
+                alignZero(t2 - maxDistance) <= 0 &&
+                t1 != t2) {
 
-            return List.of(new GeoPoint(this,ray.getPoint(t1)),
-                    new GeoPoint(this,ray.getPoint(t2)));
+            return List.of(new GeoPoint(this, ray.getPoint(t1)),
+                    new GeoPoint(this, ray.getPoint(t2)));
         }
 
-        if (t1 > 0) {
+        if (t1 > 0 && alignZero(t1 - maxDistance) <= 0) {
 
-            return List.of(new GeoPoint(this,ray.getPoint(t1)));
+            return List.of(new GeoPoint(this, ray.getPoint(t1)));
         }
 
-        if (t2 > 0) {
+        if (t2 > 0 && alignZero(t2 - maxDistance) <= 0) {
 
-            return List.of(new GeoPoint(this,ray.getPoint(t2)));
+            return List.of(new GeoPoint(this, ray.getPoint(t2)));
         }
 
         return null;
-
     }
 
 
-    }
+
+}
 

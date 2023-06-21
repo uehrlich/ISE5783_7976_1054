@@ -22,5 +22,7 @@ public Color getIntensity(Point p);
 * @return direction of light
 */
 public Vector getL(Point p);
+double getDistance(Point point);
+
 
 }

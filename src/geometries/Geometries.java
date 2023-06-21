@@ -30,32 +30,15 @@ public class Geometries extends Intersectable {
     }
 
 
-//    @Override
-//    public List<Point> findIntersections(Ray ray) {
-//
-//            List<Point> intersections = null; // all intersections
-//            for (Intersectable geometry: this.items) {
-//                List<Point> geometryIntersections = geometry.findIntersections(ray); // intersections of each geometry
-//                if (geometryIntersections != null) { // there are intersections in this geometry
-//                    if (intersections == null) { // if there are not intersections yet - create new list
-//                        intersections = new LinkedList<>();
-//                    }
-//                    intersections.addAll(geometryIntersections);
-//                }
-//            }
-//            return intersections;
-//        }
-
 
     /**
      * This method returns all intersection points with this group of shapes
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> intersections = null;
         for (Intersectable geometry : this.geometriesList) {
-            List<GeoPoint> geometryIntersections = geometry.findGeoIntersections(ray);
+            List<GeoPoint> geometryIntersections = geometry.findGeoIntersections(ray, maxDistance);
             if (geometryIntersections != null) {
                 if (intersections == null) {
                     intersections = new LinkedList<>();
@@ -64,7 +47,10 @@ public class Geometries extends Intersectable {
             }
         }
         return intersections;
-
     }
+    /**
+     * This method returns all intersection points with this group of shapes
+     */
+
 
 }

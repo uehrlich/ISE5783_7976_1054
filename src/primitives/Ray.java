@@ -12,6 +12,13 @@ public class Ray {
     private final  Point p0;
     private final Vector dir;
 
+
+    /* DELTA is a constant value that defines how much the ray's origin should be moved
+            */
+    private static final double DELTA = 0.1;
+
+
+
     public Point getP0() {
 
         return this.p0;
@@ -25,6 +32,26 @@ public class Ray {
         this.p0 = p0;
         this.dir = dir.normalize();
     }
+
+
+    public Ray(Point p0, Vector direction, Vector normal) {
+
+        if (p0 == null) {
+            throw new IllegalArgumentException("p0 cannot be null");
+        }
+
+        if (direction == null) {
+            throw new IllegalArgumentException("direction cannot be null");
+        }
+
+        if (normal == null) {
+            throw new IllegalArgumentException("normal cannot be null");
+        }
+
+        this.p0 = p0.add(normal.scale(normal.dotProduct(direction) > 0 ? DELTA : -DELTA));
+        this.dir = direction.normalize();
+    }
+
 
     public Point getPoint(double t){
         return this.p0.add(this.dir.scale(t));

@@ -47,32 +47,14 @@ public class Plane extends Geometry {
     }
 
 
-    @Override
-    public List<Point> findIntersections(Ray ray) {
-        double nv = this.getNormal().dotProduct(ray.getDir());
-        if (isZero(nv)) {
-            return null;
-        } else {
-            if (q0.equals(ray.getP0())) {
-                return null;
-            }
-            double nqp = this.getNormal().dotProduct(this.q0.subtract(ray.getP0()));
-            double t = nqp / nv;
-            if (alignZero(t) > 0) {
-                return List.of(ray.getPoint(t));
-            } else {
-                return null;
-            }
-        }
-
-    }
-
     /**
-     * @param ray
+     * @param ray, max distance
      * @return
      */
+
+
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 
         // The ray is contained in the plane
         if (isZero(ray.getDir().dotProduct(this.normal))) {
@@ -96,11 +78,11 @@ public class Plane extends Geometry {
             return null;
         }
 
-        if (t > 0) {
+        if (t > 0 && alignZero(t - maxDistance) <= 0) {
             return List.of(new GeoPoint(this, ray.getPoint(t)));
         }
 
         return null;
-
     }
+
 }

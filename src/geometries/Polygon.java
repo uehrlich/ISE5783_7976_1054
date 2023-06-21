@@ -86,12 +86,9 @@ public class Polygon extends Geometry {
     * @param ray
     * @return
     */
-//   @Override
-//   public List<Point> findIntersections(Ray ray) {
-//      return null;
-//   }
 
-   protected  List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+
+   protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 
       List<GeoPoint> intersections = this.plane.findGeoIntersections(ray);
 
@@ -121,6 +118,6 @@ public class Polygon extends Geometry {
       }
 
       return List.of(new GeoPoint(this, intersections.get(0).point));
-
    }
+
 }

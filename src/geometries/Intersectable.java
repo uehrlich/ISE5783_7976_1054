@@ -12,17 +12,17 @@ public abstract class Intersectable {
      * @param ray
      * @return
      */
-    public List<Point> findIntersections(Ray ray) {
-        var geoList = findGeoIntersections(ray);
-        return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
-    }
+    //public List<Point> findIntersections(Ray ray) {
+    //    var geoList = findGeoIntersections(ray);
+   //     return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
+   // }
 
 
-    public final List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
-    }
+   // public final List<GeoPoint> findGeoIntersections(Ray ray) {
+   //     return findGeoIntersectionsHelper(ray);
+   // }
 
-    protected  abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    //protected  abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 
 
 /**
@@ -61,6 +61,25 @@ public abstract class Intersectable {
                     '}';
         }
     }
+
+
+    public final List<Point> findIntersections(Ray ray) {
+        List<GeoPoint> geoList = findGeoIntersections(ray);
+        return geoList == null ? null
+                : geoList.stream().map(gp -> gp.point).toList();
+    }
+
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
+}
+
    /* public  List<GeoPoint> findGeoIntersections (Ray ray){
         //return findGeoIntersectionsHelper(ray);
 
@@ -86,4 +105,4 @@ public abstract class Intersectable {
 
 
 
-}
+
